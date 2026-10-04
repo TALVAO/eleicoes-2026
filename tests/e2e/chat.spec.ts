@@ -3,6 +3,19 @@ import AxeBuilder from '@axe-core/playwright';
 import { randomUUID } from 'node:crypto';
 const origin = 'http://localhost:3100';
 const admin = 'isolated-e2e-chat-admin-secret-2026';
+test('moderator login waits for hydration, authenticates and clears its secret on sign out', async ({
+  page,
+}) => {
+  await page.goto('/chat/moderacao', { waitUntil: 'domcontentloaded' });
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await page.getByLabel('Chave de moderação').fill(admin);
+  await page.getByRole('button', { name: 'Acessar', exact: true }).click();
+  await expect(
+    page.getByRole('button', { name: 'Atualizar mensagens', exact: true }),
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Sair da moderação', exact: true }).click();
+  await expect(page.getByLabel('Chave de moderação')).toHaveValue('');
+});
 test('first visit, city selection, public conversation, reports and moderation', async ({
   page,
   browser,

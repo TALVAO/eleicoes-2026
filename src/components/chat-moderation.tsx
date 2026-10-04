@@ -1,8 +1,12 @@
 'use client';
-import { useState, type FormEvent } from 'react';
+import { useState, useSyncExternalStore, type FormEvent } from 'react';
 import type { ChatMessage } from '@/features/chat/types';
 type Item = ChatMessage & { reports: number; reasons: string[] };
+const subscribeReady = () => () => {};
+const clientReady = () => true;
+const serverReady = () => false;
 export function ChatModeration() {
+  const ready = useSyncExternalStore(subscribeReady, clientReady, serverReady);
   const [token, setToken] = useState('');
   const [items, setItems] = useState<Item[]>([]);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -67,6 +71,7 @@ export function ChatModeration() {
           <label htmlFor="chat-admin-token">Chave de moderação</label>
           <input
             type="password"
+            disabled={!ready}
             id="chat-admin-token"
             autoComplete="off"
             required
@@ -74,7 +79,7 @@ export function ChatModeration() {
             value={token}
             onChange={(e) => setToken(e.target.value)}
           />
-          <button className="chat-button" disabled={busy} type="submit">
+          <button className="chat-button" disabled={!ready || busy} type="submit">
             {busy ? 'Entrando…' : 'Acessar'}
           </button>
         </form>

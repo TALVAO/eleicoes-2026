@@ -20,6 +20,8 @@ $taskTunnelCLI = Join-Path $taskWorkspace '.local/tools/localtunnel/node_modules
 foreach ($taskCLI in @($taskServerCLI, $taskTunnelCLI)) {
   if (!(Test-Path -LiteralPath $taskCLI)) { throw "Ferramenta local ausente: $taskCLI" }
 }
+docker info --format '{{.ServerVersion}}' 2>$null | Out-Null
+if ($LASTEXITCODE -ne 0) { throw 'Docker Desktop não está pronto. Abra o Docker Desktop, aguarde iniciar e execute novamente.' }
 foreach ($taskContainer in @('eleicoes2026-redis-local','eleicoes2026-worker-local')) {
   $taskStatus = docker inspect $taskContainer --format '{{.State.Running}}' 2>$null
   if ($LASTEXITCODE -ne 0) { throw "Container local ausente: $taskContainer" }

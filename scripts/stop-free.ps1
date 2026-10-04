@@ -29,5 +29,7 @@ if (Test-Path -LiteralPath $taskStatePath) {
   Remove-Item -LiteralPath $taskStatePath
 }
 docker stop eleicoes2026-worker-local | Out-Null
+if ($LASTEXITCODE -ne 0) { throw 'Não foi possível confirmar a parada do worker. Confira se o Docker Desktop está aberto.' }
 docker stop eleicoes2026-redis-local | Out-Null
+if ($LASTEXITCODE -ne 0) { throw 'Não foi possível confirmar a parada do Redis. Confira se o Docker Desktop está aberto.' }
 Write-Output 'Helpers e containers deste projeto parados; o site público ficará indisponível.'

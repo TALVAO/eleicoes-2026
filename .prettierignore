@@ -1,0 +1,9 @@
+node_modules
+.next
+.data*
+docs/sources
+docs/lighthouse-*.json
+test-results
+playwright-report
+.impeccable/review
+package-lock.json

@@ -1,0 +1,27 @@
+services:
+  redis:
+    image: redis:7.4-alpine
+    command: ['redis-server', '--appendonly', 'yes', '--maxmemory-policy', 'noeviction']
+    volumes:
+      - election-redis:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 2s
+      retries: 10
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    environment:
+      REDIS_URL: redis://redis:6379
+      TSE_ELECTION_DATE: 04/10/2026
+      TSE_TURN: '1'
+      TSE_REQUESTS_PER_SECOND: '4'
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  election-redis:

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f8f6" />
+    <title>Eleições 2026 — Sem conexão</title>
+    <style>
+      body {
+        margin: 0;
+        background: #f7f8f6;
+        color: #182825;
+        font: 18px/1.5 system-ui;
+      }
+      main {
+        max-width: 680px;
+        margin: 8vh auto;
+        padding: 24px;
+      }
+      h1 {
+        font-size: 36px;
+        line-height: 1.1;
+      }
+      a {
+        color: #173c34;
+      }
+      article {
+        padding: 16px 0;
+        border-bottom: 1px solid #ccd4ce;
+      }
+      strong {
+        display: block;
+      }
+      small {
+        color: #485b54;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p>ELEIÇÕES 2026</p>
+      <h1>Sem conexão.</h1>
+      <p id="status">Nenhum resultado está salvo neste dispositivo.</p>
+      <section id="results" aria-label="Último resultado recebido"></section>
+      <p>O resultado salvo não representa uma atualização ao vivo.</p>
+      <a href="/">Tentar conectar novamente</a>
+    </main>
+    <script src="/offline.js" defer></script>
+  </body>
+</html>

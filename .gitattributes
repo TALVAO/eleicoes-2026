@@ -1,0 +1,3 @@
+* text=auto eol=lf
+# Preserve official captures byte-for-byte for signatures and provenance hashes.
+docs/sources/** -text

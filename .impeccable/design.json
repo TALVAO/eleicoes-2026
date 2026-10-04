@@ -1,0 +1,328 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-04T09:11:09.617Z",
+  "title": "Design System: Eleições 2026",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Papel claro",
+        "canonical": "#f7f8f6",
+        "tonalRamp": [
+          "oklch(15.00% 0.00284 128.49)",
+          "oklch(26.43% 0.00284 128.49)",
+          "oklch(37.86% 0.00284 128.49)",
+          "oklch(49.29% 0.00284 128.49)",
+          "oklch(60.71% 0.00284 128.49)",
+          "oklch(72.14% 0.00284 128.49)",
+          "oklch(83.57% 0.00284 128.49)",
+          "oklch(95.00% 0.00284 128.49)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Folha branca",
+        "canonical": "#fff",
+        "tonalRamp": [
+          "oklch(15.00% 0.00000 89.88)",
+          "oklch(26.43% 0.00000 89.88)",
+          "oklch(37.86% 0.00000 89.88)",
+          "oklch(49.29% 0.00000 89.88)",
+          "oklch(60.71% 0.00000 89.88)",
+          "oklch(72.14% 0.00000 89.88)",
+          "oklch(83.57% 0.00000 89.88)",
+          "oklch(95.00% 0.00000 89.88)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Tinta profunda",
+        "canonical": "#192824",
+        "tonalRamp": [
+          "oklch(15.00% 0.02173 176.10)",
+          "oklch(26.43% 0.02173 176.10)",
+          "oklch(37.86% 0.02173 176.10)",
+          "oklch(49.29% 0.02173 176.10)",
+          "oklch(60.71% 0.02173 176.10)",
+          "oklch(72.14% 0.02173 176.10)",
+          "oklch(83.57% 0.02173 176.10)",
+          "oklch(95.00% 0.02173 176.10)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Texto secundário",
+        "canonical": "#596861",
+        "tonalRamp": [
+          "oklch(15.00% 0.02130 165.70)",
+          "oklch(26.43% 0.02130 165.70)",
+          "oklch(37.86% 0.02130 165.70)",
+          "oklch(49.29% 0.02130 165.70)",
+          "oklch(60.71% 0.02130 165.70)",
+          "oklch(72.14% 0.02130 165.70)",
+          "oklch(83.57% 0.02130 165.70)",
+          "oklch(95.00% 0.02130 165.70)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Regra editorial",
+        "canonical": "#dce2dd",
+        "tonalRamp": [
+          "oklch(15.00% 0.00930 150.68)",
+          "oklch(26.43% 0.00930 150.68)",
+          "oklch(37.86% 0.00930 150.68)",
+          "oklch(49.29% 0.00930 150.68)",
+          "oklch(60.71% 0.00930 150.68)",
+          "oklch(72.14% 0.00930 150.68)",
+          "oklch(83.57% 0.00930 150.68)",
+          "oklch(95.00% 0.00930 150.68)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Verde petróleo funcional",
+        "canonical": "#24594a",
+        "tonalRamp": [
+          "oklch(15.00% 0.06217 171.99)",
+          "oklch(26.43% 0.06217 171.99)",
+          "oklch(37.86% 0.06217 171.99)",
+          "oklch(49.29% 0.06217 171.99)",
+          "oklch(60.71% 0.06217 171.99)",
+          "oklch(72.14% 0.06217 171.99)",
+          "oklch(83.57% 0.06217 171.99)",
+          "oklch(95.00% 0.06217 171.99)"
+        ]
+      },
+      "tint": {
+        "role": "neutral",
+        "displayName": "Papel verde suave",
+        "canonical": "#edf2ee",
+        "tonalRamp": [
+          "oklch(15.00% 0.00749 151.89)",
+          "oklch(26.43% 0.00749 151.89)",
+          "oklch(37.86% 0.00749 151.89)",
+          "oklch(49.29% 0.00749 151.89)",
+          "oklch(60.71% 0.00749 151.89)",
+          "oklch(72.14% 0.00749 151.89)",
+          "oklch(83.57% 0.00749 151.89)",
+          "oklch(95.00% 0.00749 151.89)"
+        ]
+      },
+      "warn": {
+        "role": "neutral",
+        "displayName": "Aviso ocre",
+        "canonical": "#73521c",
+        "tonalRamp": [
+          "oklch(15.00% 0.08200 76.14)",
+          "oklch(26.43% 0.08200 76.14)",
+          "oklch(37.86% 0.08200 76.14)",
+          "oklch(49.29% 0.08200 76.14)",
+          "oklch(60.71% 0.08200 76.14)",
+          "oklch(72.14% 0.08200 76.14)",
+          "oklch(83.57% 0.08200 76.14)",
+          "oklch(95.00% 0.08200 76.14)"
+        ]
+      },
+      "focus": {
+        "role": "neutral",
+        "displayName": "Contorno de foco",
+        "canonical": "#458a70",
+        "tonalRamp": [
+          "oklch(15.00% 0.08163 166.76)",
+          "oklch(26.43% 0.08163 166.76)",
+          "oklch(37.86% 0.08163 166.76)",
+          "oklch(49.29% 0.08163 166.76)",
+          "oklch(60.71% 0.08163 166.76)",
+          "oklch(72.14% 0.08163 166.76)",
+          "oklch(83.57% 0.08163 166.76)",
+          "oklch(95.00% 0.08163 166.76)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Título de espera oficial."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Título da abrangência ou cargo."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Totalização e atualizações."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Texto de leitura e instrução."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Estado de conexão em caixa alta."
+      },
+      "metric": {
+        "displayName": "Metric",
+        "purpose": "Percentual oficial de totalização, quando disponível; números tabulares."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "reduced-motion",
+        "value": "@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}",
+        "purpose": "Desativa movimento não essencial."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide",
+        "value": "1600px"
+      },
+      {
+        "name": "outer-gutters",
+        "value": "1250px"
+      },
+      {
+        "name": "intermediate",
+        "value": "900px"
+      },
+      {
+        "name": "mobile",
+        "value": "680px"
+      }
+    ],
+    "focus": [
+      {
+        "name": "keyboard",
+        "value": "3px solid #458a70; outline-offset: 4px",
+        "purpose": "Foco visível global."
+      }
+    ],
+    "provenance": {
+      "mode": "scan",
+      "sources": [
+        "src/app/globals.css",
+        "src/app/layout.tsx",
+        "src/components/navigation.tsx",
+        "src/components/results-live.tsx",
+        "src/components/explorer.tsx",
+        "src/components/comparison.tsx",
+        "PRODUCT.md",
+        ".impeccable/surface.md",
+        ".impeccable/review/desktop.png",
+        ".impeccable/review/mobile.png"
+      ],
+      "tonalRamps": "Synthetic OKLCH panel previews from extracted colors; ramps are not application tokens.",
+      "direction": "User-confirmed light editorial financial interface; implementation-first."
+    }
+  },
+  "components": [
+    {
+      "name": "Recovery button",
+      "kind": "button",
+      "refersTo": "button-retry",
+      "description": "Existing recovery action on the error page.",
+      "html": "<button class=\"ds-retry\" type=\"button\">Tentar novamente</button>",
+      "css": ".ds-retry{font-family:var(--font-sans,'Source Sans 3 Variable',sans-serif);font-size:16px;background:var(--accent,#24594a);color:white;border:0;border-radius:6px;padding:12px 18px;cursor:pointer}.ds-retry:focus-visible{outline:3px solid var(--focus,#458a70);outline-offset:4px}"
+    },
+    {
+      "name": "Editorial link",
+      "kind": "button",
+      "refersTo": "text-link",
+      "description": "Source and explanatory navigation with an external arrow.",
+      "html": "<a class=\"ds-text-link\" href=\"https://resultados.tse.jus.br\">Acessar o portal do TSE <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M7 17 17 7M7 7h10v10\"/></svg></a>",
+      "css": ".ds-text-link{font-family:var(--font-sans,'Source Sans 3 Variable',sans-serif);color:var(--accent,#24594a);font-size:14px;font-weight:600;text-decoration:none;text-underline-offset:4px;display:inline-flex;align-items:center;gap:7px;min-height:44px}.ds-text-link:hover{text-decoration:underline}.ds-text-link:focus-visible{outline:3px solid var(--focus,#458a70);outline-offset:4px}"
+    },
+    {
+      "name": "Locality search",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Visible label and search icon from the locality explorer.",
+      "html": "<div class=\"ds-field\"><label for=\"ds-locality-search\">Buscar município</label><div class=\"ds-search\"><svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg><input id=\"ds-locality-search\" type=\"search\" placeholder=\"Nome do município\"/></div></div>",
+      "css": ".ds-field{font-family:var(--font-sans,'Source Sans 3 Variable',sans-serif);display:block;color:var(--muted,#596861);font-size:13px;font-weight:600}.ds-search{position:relative;display:block}.ds-search svg{position:absolute;left:12px;top:15px}.ds-search input{font-family:var(--font-sans,'Source Sans 3 Variable',sans-serif);display:block;width:100%;min-height:46px;border:1px solid var(--line,#dce2dd);border-radius:6px;background:var(--surface,#fff);color:var(--ink,#192824);padding:10px 12px 10px 37px;margin-top:6px;font-weight:400;font-size:15px;caret-color:var(--accent,#24594a)}.ds-search input::placeholder{color:#67766b}.ds-search input:disabled{background:#edf0eb;color:var(--muted,#596861);cursor:not-allowed}.ds-search input:focus-visible{outline:3px solid var(--focus,#458a70);outline-offset:4px}"
+    },
+    {
+      "name": "Scope navigation",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Four horizontal scope destinations with a selected underline.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Abrangência da apuração\"><a href=\"/\" aria-current=\"page\">Brasil</a><a href=\"/estados\">Estados</a><a href=\"/municipios\">Municípios</a><a href=\"/exterior\">Exterior</a></nav>",
+      "css": ".ds-nav{font-family:var(--font-sans,'Source Sans 3 Variable',sans-serif);display:flex;gap:40px;border-bottom:1px solid var(--line,#dce2dd)}.ds-nav a{padding:19px 2px;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;border-bottom:2px solid transparent;margin-bottom:-1px;color:var(--muted,#596861);min-height:56px;text-decoration:none}.ds-nav a[aria-current]{color:var(--accent,#24594a);border-bottom-color:var(--accent,#24594a)}.ds-nav a:hover{color:var(--ink,#192824)}.ds-nav a:focus-visible{outline:3px solid var(--focus,#458a70);outline-offset:4px}@media(max-width:680px){.ds-nav{gap:0;justify-content:space-between}.ds-nav a{font-size:13px;padding:17px 0}}"
+    },
+    {
+      "name": "Office selection",
+      "kind": "chip",
+      "refersTo": "office-chip",
+      "description": "URL-driven office selector with a dark selected state.",
+      "html": "<nav class=\"ds-offices\" aria-label=\"Cargo\"><a href=\"?office=1\" aria-current=\"page\">Presidente da República</a></nav>",
+      "css": ".ds-offices{font-family:var(--font-sans,'Source Sans 3 Variable',sans-serif);display:flex;gap:8px;flex-wrap:wrap}.ds-offices a{font-size:13px;padding:11px 15px;border:1px solid var(--line,#dce2dd);border-radius:6px;min-height:44px;color:var(--ink,#192824);text-decoration:none}.ds-offices a[aria-current]{background:var(--ink,#192824);color:white;border-color:var(--ink,#192824)}.ds-offices a:hover{border-color:var(--accent,#24594a)}.ds-offices a:focus-visible{outline:3px solid var(--focus,#458a70);outline-offset:4px}"
+    },
+    {
+      "name": "Official waiting panel",
+      "kind": "card",
+      "refersTo": "waiting-panel",
+      "description": "Existing empty state before official results are available.",
+      "html": "<section class=\"ds-wait\"><div class=\"ds-symbol\"><svg width=\"30\" height=\"30\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.3\" aria-hidden=\"true\"><path d=\"M16.24 7.76a6 6 0 0 1 0 8.48M7.76 16.24a6 6 0 0 1 0-8.48M19.07 4.93a10 10 0 0 1 0 14.14M4.93 19.07a10 10 0 0 1 0-14.14\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/></svg></div><h2>Aguardando dados oficiais</h2><p>Os resultados desta abrangência ainda não estão disponíveis para exibição.</p></section>",
+      "css": ".ds-wait{font-family:var(--font-sans,'Source Sans 3 Variable',sans-serif);color:var(--ink,#192824);background:var(--surface,#fff);min-height:382px;padding:44px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;border-radius:12px}.ds-symbol{margin-bottom:23px;color:var(--accent,#24594a);width:56px;height:56px;display:grid;place-items:center;background:var(--tint,#edf2ee);border-radius:50%}.ds-wait h2{margin:0;font-size:36px;line-height:1.09;font-weight:580;letter-spacing:-.025em;max-width:450px}.ds-wait p{margin:18px 0 0;color:var(--muted,#596861);font-size:17px;max-width:480px;line-height:1.55}@media(max-width:680px){.ds-wait{padding:28px 24px;min-height:360px}.ds-wait h2{font-size:32px;max-width:290px}.ds-wait p{font-size:16px}.ds-symbol{width:48px;height:48px}}"
+    },
+    {
+      "name": "Totalization waiting panel",
+      "kind": "card",
+      "refersTo": "totalization",
+      "description": "Soft-toned official totalization card without fabricated percentages.",
+      "html": "<section class=\"ds-total\"><h2>Totalização</h2><p class=\"ds-total-wait\">Aguardando<br/>dados oficiais.</p><p class=\"ds-total-caption\">O progresso aparecerá assim que o TSE iniciar a divulgação.</p><div class=\"ds-rule\"></div><p class=\"ds-source\">Fonte: Tribunal Superior Eleitoral</p></section>",
+      "css": ".ds-total{font-family:var(--font-sans,'Source Sans 3 Variable',sans-serif);color:var(--ink,#192824);background:var(--tint,#edf2ee);padding:28px;border-radius:12px}.ds-total h2{margin:0;font-size:18px;font-weight:650}.ds-total-wait{font-size:28px;font-weight:550;line-height:1.15;margin:24px 0 12px;letter-spacing:-.02em}.ds-total-caption{font-size:14px;color:var(--muted,#596861);margin:7px 0 0;line-height:1.5}.ds-rule{height:4px;background:#d6dfd7;margin:28px 0}.ds-source{font-size:11px;color:var(--muted,#596861);margin:22px 0 0}@media(max-width:680px){.ds-total{padding:24px}.ds-total-wait{font-size:25px}}"
+    },
+    {
+      "name": "Degraded connection notice",
+      "kind": "custom",
+      "description": "Explicit connection warning using text and an icon.",
+      "html": "<div class=\"ds-notice\" role=\"status\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 8v4M12 16h.01\"/></svg>Não foi possível atualizar os dados oficiais neste momento.</div>",
+      "css": ".ds-notice{font-family:var(--font-sans,'Source Sans 3 Variable',sans-serif);display:flex;align-items:flex-start;gap:10px;background:#f6f0e5;color:#624719;padding:15px 18px;font-size:14px;line-height:1.5;border-radius:8px}.ds-notice svg{flex-shrink:0;margin-top:2px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Folha editorial de apuração",
+    "overview": "A interface implementa a direção editorial financeira clara fixada pelo usuário: uma folha de leitura com superfícies brancas, regras finas e verde petróleo funcional. A hierarquia nasce da tipografia, do espaço e dos números alinhados; a cor conduz estados e navegação sem acrescentar decoração partidária.\n\nSource Sans 3 reúne títulos, textos e métricas numa única voz. A densidade aumenta quando os dados oficiais existem. Na ausência de publicação, a mesma linguagem apresenta uma espera legível, com explicação e procedência, sem criar candidatos ou números para preencher espaço. A identificação de dados oficiais convive com a declaração de que o site é independente do TSE.",
+    "keyCharacteristics": [
+      "Leitura editorial clara, com informação e procedência em primeiro plano.",
+      "Superfícies planas, regras finas e contraste de tinta sobre papel.",
+      "Uma família tipográfica variável e números tabulares.",
+      "Verde petróleo funcional, com aviso em ocre discreto.",
+      "Resultados e totalização legíveis em telas pequenas."
+    ],
+    "rules": [
+      {
+        "name": "The Functional Color Rule",
+        "body": "Use o acento para orientação, fonte e estado. Preserve a neutralidade visual solicitada; não atribua grandes blocos de cores partidárias aos candidatos.",
+        "section": "colors"
+      },
+      {
+        "name": "The Stable Numbers Rule",
+        "body": "Votos, percentuais, horários e diferenças usam números tabulares para manter o alinhamento durante atualizações. Preserve a formatação brasileira e a indicação de ausência.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Surface Rule",
+        "body": "Mantenha painéis planos. Diferencie função por tom, espaço e divisor, preservando a hierarquia existente.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do alinhar títulos, resultados e metadados ao mesmo container editorial.",
+      "Do preservar contraste, labels visíveis, foco de teclado e alvos táteis de pelo menos 44px nos controles principais.",
+      "Do usar números tabulares para resultados e horários.",
+      "Do distinguir ausência, zero oficial, espera e falha com texto explícito.",
+      "Do apresentar a totalização logo após os resultados no mobile.",
+      "Do manter procedência e horários próximos aos dados."
+    ],
+    "donts": [
+      "Don't preencher espera com candidatos, votos ou percentuais inventados.",
+      "Don't comunicar eleito ou situação de candidato por inferência visual.",
+      "Don't substituir o sistema plano por sombras, gradientes ou efeitos de vidro.",
+      "Don't ampliar cores partidárias a ponto de dominar a leitura.",
+      "Don't sugerir vínculo institucional com o TSE no cabeçalho ou na identidade."
+    ]
+  }
+}

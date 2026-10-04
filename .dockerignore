@@ -1,0 +1,12 @@
+node_modules
+.next
+.data*
+.env*
+.git
+docs
+tests
+test-results
+playwright-report
+.impeccable
+.local
+.vercel

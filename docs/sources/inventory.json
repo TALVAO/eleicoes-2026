@@ -1,0 +1,94 @@
+{
+  "generatedAt": "2026-10-04T09:55:28.037Z",
+  "notice": "Captured official fixtures for tests/documentation. Never read by production.",
+  "files": [
+    {
+      "file": "ele-c.json",
+      "url": "https://resultados.tse.jus.br/oficial/comum/config/ele-c.json",
+      "capturedFileModifiedAt": "2026-10-04T08:24:46.112Z",
+      "sha256": "c9a7f970cd88dd6f59c55e6f89a2c785f6ad6e5d172ccf072f0858104c75aa71",
+      "generatedAt": "02/10/2026 18:30:57",
+      "validation": "schema-verified"
+    },
+    {
+      "file": "EA12.json",
+      "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/config/mun-e006257-cm.json",
+      "capturedFileModifiedAt": "2026-10-04T08:25:48.631Z",
+      "sha256": "dd8dcad73361a481b5110098ec812c1bda3f7acc12774fe6b0cf0be10ed2132b",
+      "generatedAt": "02/10/2026 18:30:22",
+      "validation": "schema-verified"
+    },
+    {
+      "file": "EA14.json",
+      "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/br/br-e006257-ab.json",
+      "capturedFileModifiedAt": "2026-10-04T08:25:50.178Z",
+      "sha256": "b9df98980074a88ea307cd11f9b9501cf0826aafe4d61042589d2dd16eff4db7",
+      "generatedAt": "03/10/2026 15:36:16",
+      "validation": "schema-verified"
+    },
+    {
+      "file": "EA14-JWS.jws",
+      "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/br/br-e006257-ab.jws",
+      "capturedFileModifiedAt": "2026-10-04T08:27:00.644Z",
+      "sha256": "182303a1c8f80badbc26aa3124dea27fd746329b470d7981156fa788a6fb999c",
+      "generatedAt": "03/10/2026 15:36:16",
+      "validation": "signature-verified"
+    },
+    {
+      "file": "EA15-ZZ.json",
+      "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/zz/zz-e006257-ab.json",
+      "capturedFileModifiedAt": "2026-10-04T08:26:58.291Z",
+      "sha256": "e09a8291d81c6e6c85ba3bc0a3223a426d853123bfae65073b4d96473635b606",
+      "generatedAt": "03/10/2026 15:36:16",
+      "validation": "schema-verified"
+    },
+    {
+      "file": "EA20-BR.json",
+      "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/br/br-c0001-e006257-u.json",
+      "capturedFileModifiedAt": "2026-10-04T08:25:49.400Z",
+      "sha256": "3b66e6fba3fee5df47c1d745101acd2f0bb6a774a1ee2c43782bd2f06beb3613",
+      "generatedAt": "03/10/2026 14:47:37",
+      "validation": "schema-verified"
+    },
+    {
+      "file": "EA20-BR-JWS.jws",
+      "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/br/br-c0001-e006257-u.jws",
+      "capturedFileModifiedAt": "2026-10-04T08:37:39.773Z",
+      "sha256": "360c45b8d57cfe1ae76138facd5fe8c2cc7f615bc390873567e5b5cd8cc96e26",
+      "generatedAt": "03/10/2026 14:47:37",
+      "validation": "signature-verified"
+    },
+    {
+      "file": "EA20-ZZ.json",
+      "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/zz/zz-c0001-e006257-u.json",
+      "capturedFileModifiedAt": "2026-10-04T08:26:57.506Z",
+      "sha256": "e43f87356a4e09222f5758419e59c609fe42785cebcb670bebe602e86234a57e",
+      "generatedAt": "02/10/2026 20:13:52",
+      "validation": "schema-verified"
+    },
+    {
+      "file": "EA20-ZZ-JWS.jws",
+      "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/zz/zz-c0001-e006257-u.jws",
+      "capturedFileModifiedAt": "2026-10-04T08:26:59.864Z",
+      "sha256": "d19dda17dadd6ae48c03731e576b5aa6c1d87faf3401f0cb19d5b3d473954126",
+      "generatedAt": "02/10/2026 20:13:52",
+      "validation": "signature-verified"
+    },
+    {
+      "file": "EA20-LOCAL.json",
+      "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/zz/zz29254-c0001-e006257-u.json",
+      "capturedFileModifiedAt": "2026-10-04T08:37:39.115Z",
+      "sha256": "0474f7251fc437bc499ee0382722820430c119251b92743c147b8d099870ba93",
+      "generatedAt": "02/10/2026 20:14:08",
+      "validation": "schema-verified"
+    },
+    {
+      "file": "EA16-ZZ.json",
+      "url": "https://resultados.tse.jus.br/oficial/ele2026/arquivo-urna/3220/config/zz/zz-p003220-cs.json",
+      "capturedFileModifiedAt": "2026-10-04T08:26:59.081Z",
+      "sha256": "306de56adb0bc63d71e89ca2020e621535f52f6811bb06be06f637e87f9c2d60",
+      "generatedAt": "02/10/2026 18:30:17",
+      "validation": "schema-verified"
+    }
+  ]
+}

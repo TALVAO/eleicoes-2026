@@ -1,0 +1,80 @@
+[
+  {
+    "name": "EA12",
+    "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/config/mun-e006257-cm.json",
+    "status": 200,
+    "headers": {
+      "Content-Length": "534025",
+      "Accept-Ranges": "bytes",
+      "Last-Modified": "Fri, 02 Oct 2026 21:31:57 GMT",
+      "ETag": "\"9dbebd62b27910ab27d6004872f9c8d0\"",
+      "x-amz-request-id": "tx00000a7d38e3844f07d85-006ac022d1-c4694b-default",
+      "X-RateLimit-Limit": "2000, 2000;w=1",
+      "X-RateLimit-Remaining": "1986",
+      "X-RateLimit-Reset": "1",
+      "Cache-Control": "max-age=43",
+      "Expires": "Sun, 04 Oct 2026 08:26:31 GMT",
+      "Date": "Sun, 04 Oct 2026 08:25:48 GMT",
+      "Connection": "close",
+      "Alt-Svc": "h3=\":443\"; ma=93600",
+      "Content-Type": "application/json",
+      "Strict-Transport-Security": "max-age=63072000 ; includeSubDomains ; preload",
+      "Akamai-GRN": "0.286c1002.1791102348.f11644e0",
+      "cdn-cache-status": "Hit from child"
+    },
+    "sha256": "dd8dcad73361a481b5110098ec812c1bda3f7acc12774fe6b0cf0be10ed2132b",
+    "fetchedAt": "2026-10-04T08:25:48.631730+00:00"
+  },
+  {
+    "name": "EA20-BR",
+    "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/br/br-c0001-e006257-u.json",
+    "status": 200,
+    "headers": {
+      "Last-Modified": "Sat, 03 Oct 2026 17:48:37 GMT",
+      "ETag": "\"8a942760acbe9c399f8ed378a0ccaf90\"",
+      "x-amz-request-id": "tx000001fb352526cf66583-006ac13ffb-3e231c4-default",
+      "X-RateLimit-Limit": "2000, 2000;w=1",
+      "X-RateLimit-Remaining": "1991",
+      "X-RateLimit-Reset": "1",
+      "Vary": "Accept-Encoding",
+      "Cache-Control": "max-age=51",
+      "Expires": "Sun, 04 Oct 2026 08:26:40 GMT",
+      "Date": "Sun, 04 Oct 2026 08:25:49 GMT",
+      "Content-Length": "8402",
+      "Connection": "close",
+      "Alt-Svc": "h3=\":443\"; ma=93600",
+      "Content-Type": "application/json",
+      "Strict-Transport-Security": "max-age=63072000 ; includeSubDomains ; preload",
+      "Akamai-GRN": "0.266c1002.1791102349.92f57fbb",
+      "cdn-cache-status": "Hit from child"
+    },
+    "sha256": "3b66e6fba3fee5df47c1d745101acd2f0bb6a774a1ee2c43782bd2f06beb3613",
+    "fetchedAt": "2026-10-04T08:25:49.399758+00:00"
+  },
+  {
+    "name": "EA14",
+    "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/br/br-e006257-ab.json",
+    "status": 200,
+    "headers": {
+      "Last-Modified": "Sat, 03 Oct 2026 18:36:40 GMT",
+      "ETag": "\"fc386650bb1a7f76898b4544e25c0565\"",
+      "x-amz-request-id": "tx00000e4c4c4a8d186ceff-006ac14b38-8edc0c-default",
+      "X-RateLimit-Limit": "2000, 2000;w=1",
+      "X-RateLimit-Remaining": "1953",
+      "X-RateLimit-Reset": "1",
+      "Vary": "Accept-Encoding",
+      "Cache-Control": "max-age=56",
+      "Expires": "Sun, 04 Oct 2026 08:26:46 GMT",
+      "Date": "Sun, 04 Oct 2026 08:25:50 GMT",
+      "Content-Length": "26760",
+      "Connection": "close",
+      "Alt-Svc": "h3=\":443\"; ma=93600",
+      "Content-Type": "application/json",
+      "Strict-Transport-Security": "max-age=63072000 ; includeSubDomains ; preload",
+      "Akamai-GRN": "0.256c1002.1791102350.d4ed145a",
+      "cdn-cache-status": "Hit from child"
+    },
+    "sha256": "b9df98980074a88ea307cd11f9b9501cf0826aafe4d61042589d2dd16eff4db7",
+    "fetchedAt": "2026-10-04T08:25:50.178768+00:00"
+  }
+]

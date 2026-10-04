@@ -1,6 +1,21 @@
 import { describe, expect, it } from 'vitest';
+import { createHmac } from 'node:crypto';
 import { handler, targetUrl } from '../../deploy/free-gateway/api/proxy.mjs';
 const origin = 'https://validation.loca.lt';
+const token = 'isolated-gateway-test-secret';
+function signedResponse(
+  body: string,
+  options: RequestInit | undefined,
+  extra: Record<string, string> = {},
+) {
+  const nonce = (options?.headers as Record<string, string>)['x-free-gateway-nonce'];
+  return new Response(body, {
+    headers: {
+      ...extra,
+      'x-free-gateway-origin': createHmac('sha256', token).update(nonce).digest('hex'),
+    },
+  });
+}
 function response() {
   return {
     code: 0,
@@ -37,24 +52,34 @@ describe('Free gateway controlled HTTPS forwarding', () => {
   it('preserves official response content, cache headers and Next navigation headers', async () => {
     const res = response();
     let forwarded: RequestInit | undefined;
-    const proxy = handler(async (_url, options) => {
-      forwarded = options;
-      return new Response('official-response', {
-        headers: { 'content-type': 'application/json', 'cache-control': 'no-store' },
-      });
-    }, origin);
+    const proxy = handler(
+      async (_url, options) => {
+        forwarded = options;
+        return signedResponse('official-response', options, {
+          'content-type': 'application/json',
+          'cache-control': 'no-store',
+        });
+      },
+      origin,
+      token,
+    );
     await proxy({ ...request, headers: { rsc: '1' } }, res);
     expect(res.code).toBe(200);
     expect(res.body).toBe('official-response');
     expect(res.headers['cache-control']).toBe('no-store');
     expect((forwarded?.headers as Record<string, string>).rsc).toBe('1');
     expect(forwarded?.redirect).toBe('error');
+    expect(res.headers['x-free-gateway-origin']).toBeUndefined();
   });
   it('shows a graceful API error without exposing the upstream exception', async () => {
     const res = response();
-    await handler(async () => {
-      throw new Error('private-technical-detail');
-    }, origin)(request, res);
+    await handler(
+      async () => {
+        throw new Error('private-technical-detail');
+      },
+      origin,
+      token,
+    )(request, res);
     expect(res.code).toBe(503);
     expect(res.body).not.toContain('private-technical-detail');
     expect(JSON.parse(res.body).message).toContain('Conexão temporariamente indisponível');
@@ -62,13 +87,25 @@ describe('Free gateway controlled HTTPS forwarding', () => {
   it('rejects oversized payloads and unsupported methods', async () => {
     const res = response();
     const proxy = handler(
-      async () => new Response('large', { headers: { 'content-length': '5000000' } }),
+      async (_url, options) => signedResponse('large', options, { 'content-length': '5000000' }),
       origin,
+      token,
     );
     await proxy(request, res);
     expect(res.code).toBe(503);
     const other = response();
     await proxy({ ...request, method: 'POST' }, other);
     expect(other.code).toBe(405);
+  });
+  it('rejects a relay landing page returned with HTTP 200 and displays a friendly page', async () => {
+    const res = response();
+    await handler(
+      async () => new Response('relay-landing-page'),
+      origin,
+      token,
+    )({ ...request, query: { path: '' } }, res);
+    expect(res.code).toBe(503);
+    expect(res.body).toContain('Aguardando conexão');
+    expect(res.body).not.toContain('relay-landing-page');
   });
 });

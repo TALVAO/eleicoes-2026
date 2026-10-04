@@ -9,7 +9,7 @@ if (Test-Path -LiteralPath $taskStatePath) {
   $taskPrevious = Get-Content -LiteralPath $taskStatePath -Raw | ConvertFrom-Json
   foreach ($taskOwned in $taskPrevious.processes) {
     $taskRunning = Get-Process -Id $taskOwned.id -ErrorAction SilentlyContinue
-    if ($taskRunning -and $taskRunning.StartTime.ToUniversalTime().ToString('o') -eq $taskOwned.startedAt) {
+    if ($taskRunning -and $taskRunning.StartTime.ToUniversalTime() -eq ([DateTime]$taskOwned.startedAt).ToUniversalTime()) {
       throw 'Os helpers já estão ativos. Use stop-free.ps1 antes de reiniciar.'
     }
   }
@@ -32,6 +32,9 @@ $env:REDIS_URL = 'redis://127.0.0.1:6386/0'
 $env:LIVE_TRANSPORT = 'polling'
 $env:SITE_URL = 'https://eleicoes-2026-plum.vercel.app'
 $env:NODE_OPTIONS = '--use-system-ca'
+$taskTokenPath = Join-Path $taskRuntime 'gateway-token.txt'
+if (!(Test-Path -LiteralPath $taskTokenPath)) { throw 'Segredo do gateway ausente; configure-o localmente e na Vercel antes de iniciar.' }
+$env:FREE_GATEWAY_TOKEN = (Get-Content -LiteralPath $taskTokenPath -Raw).Trim()
 $taskProcesses = @()
 function Save-Helpers {
   @{ processes = $taskProcesses } | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath $taskStatePath -Encoding utf8
@@ -41,9 +44,13 @@ $taskProcesses += @{ id = $taskServer.Id; startedAt = $taskServer.StartTime.ToUn
 Save-Helpers
 $taskServerReady = $false
 for ($taskAttempt = 0; $taskAttempt -lt 20; $taskAttempt++) {
-  try { Invoke-WebRequest 'http://127.0.0.1:3000/api/catalog' -TimeoutSec 2 | Out-Null; $taskServerReady = $true; break } catch { Start-Sleep -Milliseconds 500 }
+  try { Invoke-WebRequest 'http://127.0.0.1:3000/api/catalog' -Headers @{ 'x-free-gateway-token' = $env:FREE_GATEWAY_TOKEN; 'x-free-gateway-nonce' = [Guid]::NewGuid().ToString() } -TimeoutSec 2 | Out-Null; $taskServerReady = $true; break } catch { Start-Sleep -Milliseconds 500 }
 }
 if (!$taskServerReady) { throw 'O servidor não iniciou. Consulte .local/free/server.err.log.' }
+$taskServerOwner = (Get-NetTCPConnection -LocalPort 3000 -State Listen | Select-Object -First 1).OwningProcess
+$taskRealServer = Get-Process -Id $taskServerOwner
+$taskProcesses[0] = @{ id = $taskRealServer.Id; startedAt = $taskRealServer.StartTime.ToUniversalTime().ToString('o'); role = 'server'; executable = $taskServerCLI }
+Save-Helpers
 $taskTunnelLog = Join-Path $taskRuntime 'tunnel.log'
 $taskTunnel = Start-Process -FilePath $taskNode -ArgumentList @(('"' + $taskTunnelCLI + '"'),'--port','3000','--local-host','127.0.0.1','--subdomain','tender-beans-juggle') -WorkingDirectory $taskWorkspace -WindowStyle Hidden -PassThru -RedirectStandardOutput $taskTunnelLog -RedirectStandardError (Join-Path $taskRuntime 'tunnel.err.log')
 $taskProcesses += @{ id = $taskTunnel.Id; startedAt = $taskTunnel.StartTime.ToUniversalTime().ToString('o'); role = 'tunnel'; executable = $taskTunnelCLI }
@@ -55,7 +62,21 @@ for ($taskAttempt = 0; $taskAttempt -lt 30; $taskAttempt++) {
   Start-Sleep -Milliseconds 500
 }
 if (!$taskOrigin) { throw 'O túnel não abriu. Consulte .local/free/tunnel.err.log.' }
-Invoke-WebRequest ($taskOrigin + '/api/health') -Headers @{ 'bypass-tunnel-reminder' = 'true' } -TimeoutSec 15 | Out-Null
+$taskRealTunnelInfo = Get-CimInstance Win32_Process -Filter "Name='node.exe'" | Where-Object { $_.CommandLine -and $_.CommandLine.Contains($taskTunnelCLI) } | Sort-Object CreationDate -Descending | Select-Object -First 1
+if (!$taskRealTunnelInfo) { throw 'Não foi possível identificar o processo do túnel deste projeto.' }
+$taskRealTunnel = Get-Process -Id $taskRealTunnelInfo.ProcessId
+$taskProcesses[1] = @{ id = $taskRealTunnel.Id; startedAt = $taskRealTunnel.StartTime.ToUniversalTime().ToString('o'); role = 'tunnel'; executable = $taskTunnelCLI }
+Save-Helpers
+$taskHealthy = $false
+$taskHealthDeadline = [DateTime]::UtcNow.AddSeconds(45)
+while ([DateTime]::UtcNow -lt $taskHealthDeadline) {
+  try {
+    Invoke-WebRequest ($taskOrigin + '/api/health') -Headers @{ 'bypass-tunnel-reminder' = 'true'; 'x-free-gateway-token' = $env:FREE_GATEWAY_TOKEN; 'x-free-gateway-nonce' = [Guid]::NewGuid().ToString() } -TimeoutSec 3 | Out-Null
+    $taskHealthy = $true
+    break
+  } catch { Start-Sleep -Milliseconds 500 }
+}
+if (!$taskHealthy) { throw 'O worker ainda não está saudável; confira o Docker e /api/health antes de publicar.' }
 @{ origin = $taskOrigin; publicUrl = $env:SITE_URL; checkedAt = [DateTime]::UtcNow.ToString('o') } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $taskRuntime 'connection.json') -Encoding utf8
 Write-Output "Servidor e túnel ativos: $taskOrigin"
 if ($PublishGateway) {

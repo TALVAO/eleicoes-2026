@@ -20,16 +20,27 @@ export function targetUrl(origin, requestUrl, path) {
   return target;
 }
 
-export function handler(fetcher = fetch, origin = process.env.GATEWAY_ORIGIN) {
+export function handler(
+  fetcher = fetch,
+  origin = process.env.GATEWAY_ORIGIN,
+  token = process.env.GATEWAY_TOKEN,
+) {
   return async function proxy(request, response) {
     if (!['GET', 'HEAD'].includes(request.method)) {
       response.setHeader('Allow', 'GET, HEAD');
       return response.status(405).end();
     }
     try {
+      if (!token) throw new Error('Origin authentication required');
       const path = Array.isArray(request.query.path) ? request.query.path[0] : request.query.path;
       const url = targetUrl(origin, request.url, path);
-      const headers = { Accept: request.headers.accept ?? '*/*', 'bypass-tunnel-reminder': 'true' };
+      const nonce = randomUUID();
+      const headers = {
+        Accept: request.headers.accept ?? '*/*',
+        'bypass-tunnel-reminder': 'true',
+        'x-free-gateway-token': token,
+        'x-free-gateway-nonce': nonce,
+      };
       for (const name of [
         'rsc',
         'next-router-state-tree',
@@ -45,6 +56,10 @@ export function handler(fetcher = fetch, origin = process.env.GATEWAY_ORIGIN) {
         signal: AbortSignal.timeout(8000),
         headers,
       });
+      const supplied = Buffer.from(upstream.headers.get('x-free-gateway-origin') ?? '');
+      const expected = Buffer.from(createHmac('sha256', token).update(nonce).digest('hex'));
+      if (supplied.length !== expected.length || !timingSafeEqual(supplied, expected))
+        throw new Error('Origin identity mismatch');
       if (Number(upstream.headers.get('content-length')) > LIMIT) throw new Error('Oversize');
       const reader = upstream.body?.getReader();
       const chunks = [];
@@ -90,3 +105,4 @@ export function handler(fetcher = fetch, origin = process.env.GATEWAY_ORIGIN) {
   };
 }
 export default handler();
+import { createHmac, randomUUID, timingSafeEqual } from 'node:crypto';

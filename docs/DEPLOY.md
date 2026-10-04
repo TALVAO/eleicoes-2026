@@ -12,6 +12,8 @@ O Next.js completo, o worker e o Redis permanecem neste computador. A Vercel ofe
 
 `deploy/free-gateway` é um projeto Vercel separado: recebe `GATEWAY_ORIGIN` administrativamente, aceita somente HTTPS em subdomínios `.loca.lt`, não aceita URL de destino fornecida pelo visitante, bloqueia redirecionamentos externos, limita a resposta a 4 MiB e aplica timeout de 8 segundos. Preserva os headers necessários à navegação Next.js e devolve erro amigável quando o servidor está indisponível. Não encaminha cookies ou credenciais do visitante ao túnel.
 
+O servidor exige `FREE_GATEWAY_TOKEN`; a Vercel guarda o mesmo segredo como `GATEWAY_TOKEN`. O proxy Next.js autentica a chamada e devolve uma prova HMAC para um nonce novo. O gateway verifica a prova e remove os headers privados antes de responder ao visitante. Isso rejeita páginas do próprio túnel ou uma origem reaproveitada. A prova identifica a origem; a verificação JWS oficial continua ocorrendo no worker. O segredo local fica em `.local/free/gateway-token.txt`, ignorado pelo Git, e nunca é mostrado na interface. O acesso direto ao túnel/local não autentica por padrão nesse perfil; usar o endereço Vercel. Desenvolvimento normal sem essa variável permanece disponível.
+
 `LIVE_TRANSPORT=polling` seleciona atualização da API interna a cada 15 segundos, sem criar EventSource. O worker conserva os intervalos adaptativos e o limite global de 4 requests/s ao TSE. O modo SSE da arquitetura original continua disponível em hospedagem compatível.
 
 ## Custo e limites
@@ -28,12 +30,22 @@ Os containers locais `eleicoes2026-redis-local` e `eleicoes2026-worker-local` po
 
 Para reiniciar todos os helpers, consultar `scripts/start-free.ps1`. O script usa as ferramentas locais já instaladas, registra PIDs em `.local`, inicia helpers ocultos e pode atualizar/publicar o gateway gratuito quando solicitado. Não instala serviços no Windows nem altera firewall ou suspensão.
 
+```powershell
+# Parar este projeto (torna o site público indisponível):
+.\scripts\stop-free.ps1
+# Reiniciar e atualizar a origem gratuita na Vercel:
+.\scripts\start-free.ps1 -PublishGateway
+```
+
+Os scripts devem ser executados no PowerShell com Docker Desktop disponível. Credenciais Vercel são mantidas pelo CLI oficial; se a sessão expirar, executar `npx vercel login`. O início aguarda o health do worker, incluindo a expiração de uma concessão anterior, antes de publicar.
+
 ## Validações reais
 
 - Redis real: primeiras leituras concorrentes, compartilhamento, renovação, expiração de demandas, troca de liderança e rejeição de escrita antiga.
 - Reinício do Redis: snapshots preservados e worker recuperado, health saudável.
 - Worker Linux: imagem Docker construída e resultados oficiais com JWS ingeridos em Redis.
 - Gateway: segurança de URL, preservação de resposta/headers, erros amigáveis, limite de tamanho e métodos testados.
+- Interrupção real do servidor: HTTP 503 com mensagem amigável, inclusive quando o relay retorna sua própria página com HTTP 200; restauração e nova origem publicadas.
 - Site público: conferir relatórios da revisão da publicação e health.
 
 `scripts/validate-redis.ts` aceita apenas Redis local, banco 15, para evitar modificar produção. Credenciais Vercel/Render e ferramentas locais não entram no Git.

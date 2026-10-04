@@ -1,5 +1,12 @@
 'use client';
-import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type FormEvent,
+} from 'react';
 import { MessageCircle, Send, Flag, ChevronDown, UserRound } from 'lucide-react';
 import type { ChatLocation, ChatMessage, ChatProfile } from '@/features/chat/types';
 import { usePathname } from 'next/navigation';
@@ -42,7 +49,11 @@ const time = (at: string) =>
     hour: '2-digit',
     minute: '2-digit',
   }).format(new Date(at));
+const subscribeReady = () => () => {};
+const clientReady = () => true;
+const serverReady = () => false;
 export function ChatPanel() {
+  const ready = useSyncExternalStore(subscribeReady, clientReady, serverReady);
   const [profile, setProfile] = useState<ChatProfile | null>(null);
   const [locations, setLocations] = useState<ChatLocation[]>([]);
   const [open, setOpen] = useState(false);
@@ -266,7 +277,7 @@ export function ChatPanel() {
         className="chat-launcher"
         aria-expanded={open}
         aria-controls="visitor-chat"
-        disabled={opening}
+        disabled={!ready || opening}
         onClick={() => void openConversation()}
       >
         <MessageCircle size={19} aria-hidden="true" /> {opening ? 'Abrindo chat…' : 'Conversa'}

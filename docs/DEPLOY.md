@@ -37,7 +37,7 @@ Para reiniciar todos os helpers, consultar `scripts/start-free.ps1`. O script us
 .\scripts\start-free.ps1 -PublishGateway
 ```
 
-Os scripts devem ser executados no PowerShell com Docker Desktop disponível. Credenciais Vercel são mantidas pelo CLI oficial; se a sessão expirar, executar `npx vercel login`. O início aguarda o health do worker, incluindo a expiração de uma concessão anterior, antes de publicar.
+Os scripts devem ser executados no PowerShell 7 com Docker Desktop disponível. Credenciais Vercel são mantidas pelo CLI oficial; se a sessão expirar, executar `npx vercel login`. O início aguarda prova de origem e heartbeat recente do worker, incluindo a expiração de uma concessão anterior. Um health degradado por backoff do TSE é aceito quando o worker continua ativo, para que o site apresente o último snapshot e o aviso correspondente.
 
 ## Validações reais
 

@@ -71,12 +71,18 @@ $taskHealthy = $false
 $taskHealthDeadline = [DateTime]::UtcNow.AddSeconds(45)
 while ([DateTime]::UtcNow -lt $taskHealthDeadline) {
   try {
-    Invoke-WebRequest ($taskOrigin + '/api/health') -Headers @{ 'bypass-tunnel-reminder' = 'true'; 'x-free-gateway-token' = $env:FREE_GATEWAY_TOKEN; 'x-free-gateway-nonce' = [Guid]::NewGuid().ToString() } -TimeoutSec 3 | Out-Null
-    $taskHealthy = $true
-    break
+    $taskNonce = [Guid]::NewGuid().ToString()
+    $taskProbe = Invoke-WebRequest ($taskOrigin + '/api/health') -Headers @{ 'bypass-tunnel-reminder' = 'true'; 'x-free-gateway-token' = $env:FREE_GATEWAY_TOKEN; 'x-free-gateway-nonce' = $taskNonce } -TimeoutSec 3 -SkipHttpErrorCheck
+    $taskHealth = $taskProbe.Content | ConvertFrom-Json
+    $taskHmac = [Security.Cryptography.HMACSHA256]::new([Text.Encoding]::UTF8.GetBytes($env:FREE_GATEWAY_TOKEN))
+    try { $taskProof = [Convert]::ToHexString($taskHmac.ComputeHash([Text.Encoding]::UTF8.GetBytes($taskNonce))).ToLowerInvariant() } finally { $taskHmac.Dispose() }
+    if ($taskProbe.Headers['x-free-gateway-origin'] -eq $taskProof -and $taskHealth.heartbeatAt -and ([DateTime]$taskHealth.heartbeatAt).ToUniversalTime() -gt [DateTime]::UtcNow.AddSeconds(-45)) {
+      $taskHealthy = $true
+      break
+    }
   } catch { Start-Sleep -Milliseconds 500 }
 }
-if (!$taskHealthy) { throw 'O worker ainda não está saudável; confira o Docker e /api/health antes de publicar.' }
+if (!$taskHealthy) { throw 'O worker ainda não tem heartbeat recente autenticado; confira o Docker e /api/health antes de publicar.' }
 @{ origin = $taskOrigin; publicUrl = $env:SITE_URL; checkedAt = [DateTime]::UtcNow.ToString('o') } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $taskRuntime 'connection.json') -Encoding utf8
 Write-Output "Servidor e túnel ativos: $taskOrigin"
 if ($PublishGateway) {

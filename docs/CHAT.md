@@ -4,7 +4,7 @@ O chat é independente do pipeline eleitoral. Nenhuma mensagem, apelido ou local
 
 ## Experiência
 
-Na primeira visita, um diálogo acessível pede apelido, estado (ou Exterior) e cidade/localidade. “Agora não” permite consultar resultados sem participar. Estados e cidades disponíveis vêm do catálogo EA12 já validado; o servidor confere a combinação antes de aceitar o cadastro. A localização é informada pelo visitante, não é geolocalização nem comprovação de residência.
+O site abre diretamente nos resultados, sem formulário automático nem consultas ao chat. O botão “Conversa” abre o chat; visitantes sem sessão preenchem apelido, estado (ou Exterior) e cidade/localidade nesse momento. “Agora não” permite ler a conversa sem participar. Estados e cidades disponíveis vêm do catálogo EA12 já validado; o servidor confere a combinação antes de aceitar o cadastro. A localização é informada pelo visitante, não é geolocalização nem comprovação de residência.
 
 O painel abre abaixo dos resultados. Um botão compacto permite abrir/recolher. A conversa só consulta sua API enquanto aberta e com a aba visível: intervalo de 5 segundos, sem requisições simultâneas, timeout, ETag/304 e reconexão ao recuperar rede/visibilidade. Nenhuma consulta adicional é feita ao TSE.
 

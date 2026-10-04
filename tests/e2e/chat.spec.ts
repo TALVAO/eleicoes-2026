@@ -16,14 +16,22 @@ test('moderator login waits for hydration, authenticates and clears its secret o
   await page.getByRole('button', { name: 'Sair da moderação', exact: true }).click();
   await expect(page.getByLabel('Chave de moderação')).toHaveValue('');
 });
-test('first visit, city selection, public conversation, reports and moderation', async ({
+test('chat opens on demand, city selection, public conversation, reports and moderation', async ({
   page,
   browser,
 }, testInfo) => {
   test.setTimeout(60000);
   const suffix = randomUUID().slice(0, 8);
+  const chatRequests: string[] = [];
+  page.on('request', (r) => {
+    if (r.url().includes('/api/chat/')) chatRequests.push(r.url());
+  });
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   const dialog = page.getByRole('dialog');
+  await expect(dialog).not.toBeVisible();
+  expect(chatRequests).toEqual([]);
+  await page.screenshot({ path: `.impeccable/review/chat-home-${testInfo.project.name}.png` });
+  await page.getByRole('button', { name: 'Conversa', exact: true }).click();
   await expect(dialog).toBeVisible();
   await expect(page.getByLabel('Apelido', { exact: true })).toBeFocused();
   await expect(page.getByLabel('Cidade ou localidade', { exact: true })).toBeDisabled();
@@ -98,17 +106,18 @@ test('first visit, city selection, public conversation, reports and moderation',
 test('dismissed onboarding leaves results accessible, chat pauses when closed and failures are readable', async ({
   page,
 }) => {
-  await page.goto('/', { waitUntil: 'domcontentloaded' });
-  const dialog = page.getByRole('dialog');
-  await expect(dialog).toBeVisible();
-  await dialog.getByRole('button', { name: 'Agora não, ver os resultados' }).click();
-  await expect(page.getByRole('heading', { name: 'Presidente da República' })).toBeVisible();
   let polls = 0;
   await page.route('**/api/chat/messages', (route) => {
     polls++;
     return route.fulfill({ status: 503, json: { message: 'Indisponível' } });
   });
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  const dialog = page.getByRole('dialog');
+  await expect(dialog).not.toBeVisible();
   await page.getByRole('button', { name: 'Conversa', exact: true }).click();
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole('button', { name: 'Agora não, ver os resultados' }).click();
+  await expect(page.getByRole('heading', { name: 'Presidente da República' })).toBeVisible();
   await expect(
     page.getByText('Não foi possível atualizar a conversa. Tentaremos novamente.'),
   ).toBeVisible();

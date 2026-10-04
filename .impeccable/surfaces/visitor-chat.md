@@ -2,11 +2,11 @@
 
 Mode: Operate. Local extension of the established election dashboard, code-led.
 
-Job: identify a visitor by nickname and self-declared city/state, then exchange short public comments while following the count. On first visit, show the registration dialog; “Agora não” preserves immediate access to official results. Returning participants use their protected 24-hour session.
+Job: identify a visitor by nickname and self-declared city/state, then exchange short public comments while following the count. The user revised onboarding: arrival shows results with the “Conversa” launcher; registration and all chat requests begin only after clicking it. “Agora não” permits reading the conversation without participating. Returning participants use their protected 24-hour session.
 
 Direction: retain the dashboard’s flat editorial palette, Source Sans 3, restrained green, 44px controls and visible labels. The conversation opens below results, with a fixed compact launcher. Comments have their own disclaimer and never feed election models.
 
-First viewport: a focused native onboarding dialog with nickname, official-catalog region and city selectors, an optional city filter revealed by “Filtrar cidades”, a clear primary submit and a textual “Agora não, ver resultados” dismissal at the top. The repeated dismissal below the form remains available after scrolling. City selection is required; filtering is optional. No fabricated electoral data.
+First viewport: the incumbent results page and compact conversation launcher, without a registration overlay. On explicit activation, anonymous visitors receive the focused native dialog with nickname, official-catalog region and city selectors, optional “Filtrar cidades”, primary submit and textual dismissal. Returning visitors open the timeline directly. City selection is required; filtering is optional. No fabricated electoral data.
 
 Signature interaction: a participant’s short comment joins a chronological public timeline, retaining nickname and locality; a report expands inline with its reason. Updates only while the panel and browser tab are active.
 

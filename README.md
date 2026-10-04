@@ -2,7 +2,7 @@
 
 Dashboard independente em português para acompanhar a divulgação do TSE. Next.js 16.3.8, React 19.3.0, TypeScript estrito, App Router, Tailwind CSS 4, Zod, Vitest e Playwright. Não utiliza APIs eleitorais de terceiros nem dados fictícios em produção.
 
-Conversa pública opcional com apelido, cidade e estado na primeira visita, sessões protegidas, limites contra spam, denúncias e painel privado de moderação. Comentários não participam dos resultados oficiais. Consulte [CHAT.md](docs/CHAT.md) para operação e limites.
+Conversa pública opcional pelo botão “Conversa”, com apelido, cidade e estado solicitados ao abrir o chat, sessões protegidas, limites contra spam, denúncias e painel privado de moderação. A página inicial abre diretamente nos resultados. Comentários não participam dos resultados oficiais. Consulte [CHAT.md](docs/CHAT.md) para operação e limites.
 
 **Antes de divulgar resultados, o sistema exige assinatura válida, schema compatível e autorização oficial de divulgação.** Arquivos preparatórios com `and=n` não viram resultados com zero votos. O resultado presidencial também respeita 17h de Brasília na data da eleição configurada.
 

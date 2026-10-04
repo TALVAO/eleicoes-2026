@@ -46,6 +46,7 @@ export function ChatPanel() {
   const [profile, setProfile] = useState<ChatProfile | null>(null);
   const [locations, setLocations] = useState<ChatLocation[]>([]);
   const [open, setOpen] = useState(false);
+  const [opening, setOpening] = useState(false);
   const [nickname, setNickname] = useState('');
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
@@ -80,35 +81,44 @@ export function ChatPanel() {
   useEffect(() => {
     let active = true;
     Promise.resolve()
-      .then(loadSession)
-      .then((session) => {
+      .then(() => {
         if (!active) return;
         try {
           const saved: unknown = JSON.parse(localStorage.getItem('ele2026-chat-hidden') ?? '[]');
           if (Array.isArray(saved))
             setHidden(saved.filter((s): s is string => typeof s === 'string').slice(-100));
         } catch {}
-        if (session.profile) return;
-        let dismissed = false;
-        try {
-          dismissed = sessionStorage.getItem('ele2026-chat-welcome') === 'seen';
-        } catch {}
-        if (!dismissed && session.locations.length) dialog.current?.showModal();
       })
-      .catch(() => {
-        if (active) setLoaded(true);
-      });
+      .catch(() => {});
     return () => {
       active = false;
     };
-  }, [loadSession]);
+  }, []);
   const dismiss = () => {
     dialog.current?.close();
     setFormError('');
-    try {
-      sessionStorage.setItem('ele2026-chat-welcome', 'seen');
-    } catch {}
   };
+  async function openConversation() {
+    if (open) {
+      setOpen(false);
+      return;
+    }
+    setOpening(true);
+    setError('');
+    try {
+      const session = await loadSession();
+      setOpen(true);
+      if (!session.profile) dialog.current?.showModal();
+      else
+        setTimeout(() => panel.current?.scrollIntoView({ behavior: 'auto', block: 'start' }), 50);
+    } catch {
+      setOpen(true);
+      setLoaded(true);
+      setError('O chat está temporariamente indisponível. Tente entrar novamente em instantes.');
+    } finally {
+      setOpening(false);
+    }
+  }
   const refresh = useCallback(async () => {
     if (refreshing.current) return;
     refreshing.current = true;
@@ -256,16 +266,10 @@ export function ChatPanel() {
         className="chat-launcher"
         aria-expanded={open}
         aria-controls="visitor-chat"
-        onClick={() => {
-          setOpen((value) => !value);
-          if (!open)
-            setTimeout(
-              () => panel.current?.scrollIntoView({ behavior: 'auto', block: 'start' }),
-              50,
-            );
-        }}
+        disabled={opening}
+        onClick={() => void openConversation()}
       >
-        <MessageCircle size={19} aria-hidden="true" /> Conversa
+        <MessageCircle size={19} aria-hidden="true" /> {opening ? 'Abrindo chat…' : 'Conversa'}
       </button>
       <aside
         id="visitor-chat"

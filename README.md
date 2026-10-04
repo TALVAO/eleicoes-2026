@@ -8,7 +8,7 @@ Conversa pública opcional pelo botão “Conversa”, com apelido, cidade e est
 
 ## Arquitetura
 
-**Perfil gratuito publicado:** [eleicoes-2026-plum.vercel.app](https://eleicoes-2026-plum.vercel.app). Vercel Hobby executa o gateway; Next.js, worker e Redis rodam neste computador, conectados por túnel HTTPS Localtunnel. Não há hospedagem paga ativada. O usuário autorizou manter o computador ligado durante a apuração. Este perfil usa polling interno de 15 s e depende do computador/internet/túnel, sem uptime garantido. Consulte [DEPLOY.md](docs/DEPLOY.md) para limites e reinício.
+**Perfil gratuito publicado:** [eleicoes-2026-plum.vercel.app](https://eleicoes-2026-plum.vercel.app). Vercel Hobby executa o gateway; Next.js, worker e Redis rodam neste computador, conectados por túnel HTTPS Localtunnel. Não há hospedagem paga ativada. O usuário autorizou manter o computador ligado durante a apuração. Este perfil usa polling interno de 5–5,5 s e depende do computador/internet/túnel, sem uptime garantido. Consulte [DEPLOY.md](docs/DEPLOY.md) para limites e reinício.
 
 O diagrama abaixo descreve a alternativa preparada para infraestrutura independente do computador, que continua disponível no código:
 
@@ -25,7 +25,7 @@ flowchart LR
 
 O navegador consulta somente a API interna. A API e o SSR leem cache; quem consulta o TSE é o worker com orçamento global de 4 requisições/s. Uma concessão Redis com renovação e escrita protegida impede ingestores simultâneos. Em desenvolvimento, arquivos atômicos substituem Redis; esse modo não serve para Vercel nem alta disponibilidade.
 
-SSE na Vercel tem sessões de 50 segundos, `maxDuration=60`, identificação de revisão, heartbeat e reconexão. Polling interno de 15 segundos mantém atualização quando SSE falha. A ingestão contínua **não** roda em funções serverless. A decisão considera a [duração limitada das funções Vercel](https://vercel.com/docs/functions/limitations), incluindo respostas em streaming. Consulte [ARCHITECTURE.md](docs/ARCHITECTURE.md).
+SSE na Vercel tem sessões de 50 segundos, `maxDuration=60`, identificação de revisão, heartbeat e reconexão. Polling interno de 5–5,5 segundos mantém atualização quando SSE falha. A ingestão contínua **não** roda em funções serverless. A decisão considera a [duração limitada das funções Vercel](https://vercel.com/docs/functions/limitations), incluindo respostas em streaming. Consulte [ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Fontes oficiais
 
@@ -135,5 +135,7 @@ Opcionalmente `docker compose -f compose.worker.yml up -d --build` sobe Redis lo
 O [relatório de entrega](docs/DELIVERY.md) registra os resultados efetivos da validação. O [DESIGN.md](DESIGN.md) documenta o sistema visual.
 
 ## Independência
+
+O painel presidencial com mapa, destaques por percentual e reações está documentado em [INTERACTIVITY.md](docs/INTERACTIVITY.md). Resultados eleitorais continuam exclusivamente TSE. A geometria estática do mapa é do IBGE; reações de visitantes são independentes dos votos. O perfil gratuito consulta resultados no navegador a cada 5–5,5 segundos, com cache compartilhado de 2 segundos. Não há garantia de audiência nacional no computador/túnel gratuito.
 
 Este site é independente e não possui vínculo institucional com o Tribunal Superior Eleitoral. Todos os resultados eleitorais exibidos são obtidos diretamente das fontes oficiais disponibilizadas pelo TSE.

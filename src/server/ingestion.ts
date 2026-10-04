@@ -303,6 +303,11 @@ export class Ingestion {
             }
           const commit = commitSnapshot(existing, { data, source: raw.source });
           await this.store.put('result:' + q.key, commit.resource, this.token);
+          if (q.municipality && q.office === '1' && q.scope !== this.catalog!.exteriorCode) {
+            const observed = (await this.store.get<string[]>('municipalities:observed')) ?? [];
+            if (!observed.includes(q.key))
+              await this.store.put('municipalities:observed', [...observed, q.key], this.token);
+          }
           if (commit.changed) {
             const events = snapshotEvents(commit.resource.current!, commit.resource.previous);
             if (events.length) {
@@ -390,7 +395,18 @@ export class Ingestion {
           const same = this.sourceMeta.get(due.url)?.hash === previousHash;
           due.unchanged = same ? due.unchanged + 1 : 0;
           due.failures = 0;
-          due.due = Date.now() + Math.max(due.minDelay, pollDelay('ok', due.unchanged, 0));
+          let delay = Math.max(due.minDelay, pollDelay('ok', due.unchanged, 0));
+          if (
+            this.catalog &&
+            (due.key === `${this.catalog.federalElection}:br:-:1` ||
+              due.key === `tracking:${this.catalog.federalElection}:br`)
+          ) {
+            const national = await this.store.get<Resource<Result>>(
+              `result:${this.catalog.federalElection}:br:-:1`,
+            );
+            if (national?.current?.data.phase === 'counting') delay = Math.min(delay, 5000);
+          }
+          due.due = Date.now() + delay;
         }
       } catch (e) {
         await this.rememberRateLimit(e);

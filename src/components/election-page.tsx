@@ -173,6 +173,7 @@ export async function ElectionPage({
               query={query.toString()}
               title={title}
               scopeName={scopeName}
+              presidential={tab === 'brasil'}
             />
             {tab === 'exterior' && (
               <>

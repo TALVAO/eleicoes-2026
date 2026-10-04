@@ -1,5 +1,19 @@
 # Relatório de entrega — 04/10/2026
 
+## Atualização: hero presidencial publicado
+
+Publicado em `https://eleicoes-2026-plum.vercel.app`, deployment `dpl_3WxUPnbf9Hq9NjSzqB7gsCHibKfn`. Top cinco candidatos, barras animadas e cores estáveis, malha IBGE estática, mapa de lideranças com estados neutros em empate/zero/ausência, destaques do top dois por percentual e reações Redis independentes da apuração. Município é comparação parcial entre locais consultados, até 300, claramente identificada. Chat mobile em fluxo acima dos resultados, sem formulário automático e sem sobreposição.
+
+Validação final: lint e typecheck, build Webpack, **100 testes unitários**, **34 E2E** desktop/iPhone Chromium, AA via axe e revisão visual (duas correções pontuadas resolvidas). Lighthouse mobile local no estado oficial de preparação: **96 Performance / 100 Accessibility / 100 Best Practices / 100 SEO**; não é uma medição do túnel público nem da apuração populada. Carga local isolada: 1.000 consultas, concorrência 25, nenhuma falha, p95 52 ms. Não representa 1.000 visitantes simultâneos nem capacidade nacional.
+
+Site público verificado em desktop/iPhone: HTTP 200, worker saudável, assinatura verificada, mapa com 27 geometrias e nenhuma liderança antes da publicação, ETag/304, reações indisponíveis (409) na preparação, ausência de overflow/erros cliente e AA. Chat público também passou cadastro sob intenção, POST permitido, cookies protegidos e envio anônimo negado, sem mensagens de teste publicadas. Consultas públicas observadas entre 5.413 e 7.129 ms; intervalo configurado 5–5,5 s acrescido do tempo de resposta. EA14/nacional alvo 2–5 s durante apuração; erros e espera continuam adaptativos e limite central 4 req/s. Cache API/CDN 2 s e coalescência de leituras. Não há garantia de latência ou uptime.
+
+Comparação direta em 04/10/2026 13:06:03 UTC: API pública e EA20 presidencial JWS atual do TSE tinham hash `3b66e6fba3fee5df47c1d745101acd2f0bb6a774a1ee2c43782bd2f06beb3613`, com assinatura validada e todos os campos eleitorais do modelo coincidentes. Fase oficial: `unreleased`. Nenhum dado sintético entrou no cache de produção; fixtures de apuração existem apenas em testes. Verificação reproduzível: `npx tsx scripts/verify-public.ts` (uma consulta oficial, sem escrita).
+
+Verificação recorrente Codex configurada nesta conversa a cada 5 minutos, silenciosa se saudável, para falhas/recuperação/ação necessária. Depende do aplicativo e computador ativos. Hospedagem permanece gratuita e dependente de PC, Redis local e túnel. Procedimentos de reinício em [DEPLOY.md](DEPLOY.md); detalhes do painel em [INTERACTIVITY.md](INTERACTIVITY.md).
+
+As seções abaixo preservam o histórico das entregas anteriores; seus intervalos e contagens de teste foram superados por esta atualização.
+
 ## Atualização: publicação gratuita
 
 Após a entrega local, o site foi publicado em **https://eleicoes-2026-plum.vercel.app**, por solicitação do usuário e com custo zero de contratação. Vercel Hobby hospeda um gateway; este computador mantém Next.js, worker e Redis local, via túnel HTTPS Localtunnel. O usuário autorizou mantê-lo ligado durante a apuração. Não foram criados serviços Render pagos. Atualização de clientes a cada 15 s; ingestão adaptativa original preservada.

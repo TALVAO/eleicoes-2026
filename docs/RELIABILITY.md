@@ -37,7 +37,7 @@ Redis tem concessão de liderança de 30 s, renovada em 8 s e escritas protegida
 
 Cache indisponível: API 503 com mensagem de serviço, SSR em estado de indisponibilidade e cliente preservando a última visão. Não há consulta ao TSE pela API como fallback. Sem cache local recebido, não há resultado a mostrar. Esta implementação não replica Redis por si própria; failover de Redis deve ser fornecido/ensaiado pelo serviço escolhido.
 
-Sem SSE: fallback para API interna a cada 15 s. SSE tem sessão 50 s, reconexão 3 s e heartbeat; último Event-ID evita repetição desnecessária. Sem internet: aviso offline e último snapshot do dispositivo, datado. Service worker não transforma API antiga em “ao vivo”.
+Sem SSE: fallback para API interna a cada 5–5,5 s. SSE tem sessão 50 s, reconexão 3 s e heartbeat; último Event-ID evita repetição desnecessária. Sem internet: aviso offline e último snapshot do dispositivo, datado. Service worker não transforma API antiga em “ao vivo”.
 
 ## Observabilidade
 

@@ -8,7 +8,7 @@ O site abre diretamente nos resultados, sem formulário automático nem consulta
 
 O botão só aceita interação após a hidratação, evitando perder cliques antes do carregamento do JavaScript. O fluxo sob demanda foi testado em desktop e iPhone: nenhuma consulta ao chat na chegada, cadastro após clique e entrada direta para sessão existente.
 
-O painel abre abaixo dos resultados. Um botão compacto permite abrir/recolher. A conversa só consulta sua API enquanto aberta e com a aba visível: intervalo de 5 segundos, sem requisições simultâneas, timeout, ETag/304 e reconexão ao recuperar rede/visibilidade. Nenhuma consulta adicional é feita ao TSE.
+O botão fica na faixa superior da página no celular e flutua no desktop. A conversa abre na faixa superior após intenção explícita, sem cobrir resultados com o launcher mobile. Um botão compacto permite abrir/recolher. A conversa só consulta sua API enquanto aberta e com a aba visível: intervalo de 5 segundos, sem requisições simultâneas, timeout, ETag/304 e reconexão ao recuperar rede/visibilidade. Nenhuma consulta adicional é feita ao TSE.
 
 ## Persistência e limites
 

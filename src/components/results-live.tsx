@@ -13,6 +13,12 @@ import {
 import type { Candidate, Metrics, Result, View, UpdateEvent, Provenance } from '@/lib/tse/types';
 import { useLive } from '@/features/elections/live-store';
 import { difference } from '@/lib/tse/adapters/results';
+import {
+  PresidentialChart,
+  BrazilMap,
+  GeographicHighlights,
+  useGeography,
+} from './presidential-hero';
 export const number = (value: number | null) =>
   value === null ? 'Ainda não disponível' : value.toLocaleString('pt-BR');
 export const clock = (iso: string | null) =>
@@ -124,9 +130,11 @@ const CandidateList = memo(function CandidateList({ result }: { result: Result }
 const Totalization = memo(function Totalization({
   metrics,
   available,
+  id = 'totalization-title',
 }: {
   metrics: Metrics | undefined;
   available: boolean;
+  id?: string;
 }) {
   const entries: [string, number | null | undefined][] = [
     ['Seções totalizadas', metrics?.totalized],
@@ -139,8 +147,8 @@ const Totalization = memo(function Totalization({
     ['Nulos (inclui técnicos)', metrics?.null],
   ];
   return (
-    <section className="totalization" aria-labelledby="totalization-title">
-      <h2 id="totalization-title">Totalização</h2>
+    <section className="totalization" aria-labelledby={id}>
+      <h2 id={id}>Totalização</h2>
       {available &&
       metrics?.totalizedPercent !== null &&
       metrics?.totalizedPercent !== undefined ? (
@@ -257,11 +265,13 @@ export function ResultsLive({
   query,
   title,
   scopeName,
+  presidential = false,
 }: {
   initial: View;
   query: string;
   title: string;
   scopeName: string;
+  presidential?: boolean;
 }) {
   const { view, offline, connection, now } = useLive(query, initial, scopeName);
   const resource = view.resource;
@@ -288,6 +298,8 @@ export function ResultsLive({
     resource.status === 'invalid-signature' ||
     resource.status === 'schema-incompatible' ||
     resource.status === 'invalid-json';
+  const national = presidential;
+  const geography = useGeography(national);
   return (
     <>
       <div className="page-title">
@@ -324,10 +336,14 @@ export function ResultsLive({
           </div>
         )
       )}
-      <div className="results-grid">
+      <div className={`results-grid ${national ? 'national-dashboard' : ''}`}>
         <div className="main-results">
           {available && result ? (
-            <CandidateList result={result} />
+            national ? (
+              <PresidentialChart result={result} />
+            ) : (
+              <CandidateList result={result} />
+            )
           ) : (
             <section className="waiting-state">
               <div className="waiting-symbol">
@@ -363,11 +379,31 @@ export function ResultsLive({
               </a>
             </section>
           )}
+          {national && (
+            <div className="mobile-totalization">
+              <Totalization
+                metrics={result?.metrics}
+                available={available}
+                id="mobile-totalization-title"
+              />
+            </div>
+          )}
           <Freshness source={snapshot?.source ?? null} />
+          {national && available && result && (
+            <GeographicHighlights result={result} data={geography.data} />
+          )}
           {available && result && <Difference result={result} />}
           <Feed events={view.events} />
         </div>
         <aside>
+          {national && (
+            <BrazilMap
+              data={geography.data}
+              stale={geography.stale}
+              allowed={available}
+              candidates={result?.candidates ?? []}
+            />
+          )}
           <Totalization metrics={result?.metrics} available={available} />
           <section className="reading-guide">
             <h2>Uma apuração, com transparência.</h2>

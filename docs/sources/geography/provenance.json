@@ -1,0 +1,8 @@
+{
+  "capturedAt": "2026-10-04T12:36:24.527Z",
+  "sha256": "07c671aa87aa1ab296c446de6294df9827112782537b996c0a160284907e7c0f",
+  "geometry": "https://servicodados.ibge.gov.br/api/v3/malhas/paises/BR?intrarregiao=UF&formato=application/vnd.geo%2Bjson&qualidade=minima",
+  "mapping": "https://servicodados.ibge.gov.br/api/v1/localidades/estados",
+  "documentation": "https://servicodados.ibge.gov.br/api/docs/malhas?versao=3",
+  "notice": "Static geographic boundaries only. No IBGE electoral data. All electoral values are TSE."
+}

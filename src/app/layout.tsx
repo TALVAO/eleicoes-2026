@@ -57,8 +57,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </a>
           </div>
         </header>
-        {children}
         <ChatEntry />
+        {children}
         <footer className="site-footer">
           <div className="footer-top">
             <Link href="/" className="footer-brand">

@@ -117,10 +117,10 @@ test('zero vs counting and client updates use the internal SSE API', async ({ pa
   });
   await page.goto('/');
   await expect(page.locator('.candidate-row')).toHaveCount(
-    view.resource.current!.data.candidates.length,
+    Math.min(5, view.resource.current!.data.candidates.length),
   );
   await expect(page.getByText('900 votos', { exact: true })).toBeVisible();
-  await expect(page.locator('progress')).toHaveAttribute('value', '33.33');
+  await expect(page.locator('progress:visible')).toHaveAttribute('value', '33.33');
   expect(external).toEqual([]);
   const scan = await new AxeBuilder({ page }).withTags(['wcag2aa']).analyze();
   expect(scan.violations).toEqual([]);

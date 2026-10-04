@@ -43,7 +43,11 @@ class LiveStore {
       } catch {}
   }
   private async poll() {
-    if (!this.active) return;
+    if (!this.active || document.hidden || !navigator.onLine) return;
+    if (this.fallback) {
+      clearTimeout(this.fallback);
+      this.fallback = null;
+    }
     this.controller?.abort();
     this.controller = new AbortController();
     const timeout = setTimeout(() => this.controller?.abort(), 8000);
@@ -60,10 +64,13 @@ class LiveStore {
       clearTimeout(timeout);
     }
     if (this.active && this.sse?.readyState !== EventSource.OPEN)
-      this.fallback = setTimeout(() => {
-        this.fallback = null;
-        void this.poll();
-      }, 15_000);
+      this.fallback = setTimeout(
+        () => {
+          this.fallback = null;
+          void this.poll();
+        },
+        this.state.connection === 'degraded' ? 15_000 : 5000 + Math.floor(Math.random() * 500),
+      );
   }
   private network = () => {
     const offline = !navigator.onLine;
@@ -90,6 +97,7 @@ class LiveStore {
     this.network();
     window.addEventListener('online', this.network);
     window.addEventListener('offline', this.network);
+    document.addEventListener('visibilitychange', this.visibility);
     if (this.state.view.transport !== 'polling') {
       this.sse = new EventSource('/api/events?' + this.query);
       this.sse.addEventListener('snapshot', (event) => {
@@ -142,8 +150,12 @@ class LiveStore {
       if (this.fallback) clearTimeout(this.fallback);
       window.removeEventListener('online', this.network);
       window.removeEventListener('offline', this.network);
+      document.removeEventListener('visibilitychange', this.visibility);
     };
   }
+  private visibility = () => {
+    if (!document.hidden) void this.poll();
+  };
 }
 export function useLive(query: string, initial: View, scopeLabel?: string) {
   const store = useMemo(

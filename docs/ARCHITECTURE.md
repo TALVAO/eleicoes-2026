@@ -2,7 +2,7 @@
 
 ## Perfil gratuito efetivamente publicado
 
-Após a entrega inicial, o usuário definiu custo zero e autorizou este computador como servidor. Vercel Hobby → gateway controlado em `deploy/free-gateway` → Localtunnel HTTPS → Next.js local → Redis local + worker Docker. Não foram criados serviços pagos. `LIVE_TRANSPORT=polling` atualiza a API interna a cada 15 s. O cache e os dados continuam centralizados, com a validação oficial original. O gateway não busca resultados diretamente no TSE.
+Após a entrega inicial, o usuário definiu custo zero e autorizou este computador como servidor. Vercel Hobby → gateway controlado em `deploy/free-gateway` → Localtunnel HTTPS → Next.js local → Redis local + worker Docker. Não foram criados serviços pagos. `LIVE_TRANSPORT=polling` atualiza a API interna a cada 5–5,5 s. O cache e os dados continuam centralizados, com a validação oficial original. O gateway não busca resultados diretamente no TSE.
 
 A disponibilidade depende do computador, Docker, internet e túnel; não há garantia de produção nacional. O hostname do túnel pode mudar e exigir atualização do gateway. Detalhes/reinício em [DEPLOY.md](DEPLOY.md). As decisões seguintes registram o caminho preparado para hospedagem persistente independente do computador.
 
@@ -32,7 +32,7 @@ Next.js fornece SSR, assets, API interna e SSE de duração limitada. Worker Nod
 
 Funções Vercel possuem duração finita, inclusive ao transmitir respostas: [limitações oficiais](https://vercel.com/docs/functions/limitations). Não se usa um timer de ingestão dentro delas, nem um cron por cliente. SSE termina em 50 segundos antes do limite de 60; EventSource reconecta em 3 segundos. O endpoint reconhece Last-Event-ID. Heartbeats mantêm a conexão; revisões não incluem o relógio volátil, para evitar emissão contínua de payload idêntico.
 
-Sem SSE, fetch interno a cada 15 segundos continua lendo o mesmo cache. A lista de UFs também usa essa frequência. Mesmo muitos clientes não aumentam chamadas ao TSE; aumentam leituras de Redis e conexões da aplicação. Não confundir isolamento da CDN com capacidade ilimitada do frontend.
+Sem SSE, fetch interno a cada 5–5,5 segundos continua lendo o mesmo cache. A lista de UFs mantém 15 segundos; o mapa da home usa 5 segundos. Mesmo muitos clientes não aumentam chamadas ao TSE; aumentam leituras de Redis e conexões da aplicação. Não confundir isolamento da CDN com capacidade ilimitada do frontend.
 
 ## Demanda e priorização
 

@@ -27,7 +27,7 @@ export function handler(
 ) {
   return async function proxy(request, response) {
     const path = Array.isArray(request.query.path) ? request.query.path[0] : request.query.path;
-    const chat = /^api\/chat\/(session|messages|reports|moderation)$/.test(String(path));
+    const chat = /^api\/chat\/(session|messages|reports|moderation|reactions)$/.test(String(path));
     if (!['GET', 'HEAD'].includes(request.method) && !(request.method === 'POST' && chat)) {
       response.setHeader('Allow', 'GET, HEAD');
       return response.status(405).end();
@@ -42,6 +42,7 @@ export function handler(
         'x-free-gateway-token': token,
         'x-free-gateway-nonce': nonce,
       };
+      if (request.headers['if-none-match']) headers['if-none-match'] = request.headers['if-none-match'];
       let body;
       if (chat) {
         // Vercel overwrites X-Forwarded-For; never forward the visitor's custom identity header.

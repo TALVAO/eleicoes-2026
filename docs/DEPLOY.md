@@ -14,7 +14,7 @@ O Next.js completo, o worker e o Redis permanecem neste computador. A Vercel ofe
 
 O servidor exige `FREE_GATEWAY_TOKEN`; a Vercel guarda o mesmo segredo como `GATEWAY_TOKEN`. O proxy Next.js autentica a chamada e devolve uma prova HMAC para um nonce novo. O gateway verifica a prova e remove os headers privados antes de responder ao visitante. Isso rejeita páginas do próprio túnel ou uma origem reaproveitada. A prova identifica a origem; a verificação JWS oficial continua ocorrendo no worker. O segredo local fica em `.local/free/gateway-token.txt`, ignorado pelo Git, e nunca é mostrado na interface. O acesso direto ao túnel/local não autentica por padrão nesse perfil; usar o endereço Vercel. Desenvolvimento normal sem essa variável permanece disponível.
 
-`LIVE_TRANSPORT=polling` seleciona atualização da API interna a cada 15 segundos, sem criar EventSource. O worker conserva os intervalos adaptativos e o limite global de 4 requests/s ao TSE. O modo SSE da arquitetura original continua disponível em hospedagem compatível.
+`LIVE_TRANSPORT=polling` seleciona atualização da API interna a cada 5–5,5 segundos, sem criar EventSource. O worker conserva os intervalos adaptativos e o limite global de 4 requests/s ao TSE. O modo SSE da arquitetura original continua disponível em hospedagem compatível.
 
 ## Custo e limites
 

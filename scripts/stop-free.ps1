@@ -21,7 +21,8 @@ if (Test-Path -LiteralPath $taskStatePath) {
           $taskLiveChild = Get-CimInstance Win32_Process -Filter "ProcessId=$($taskChild.ProcessId)"
           if ($taskLiveChild -and $taskLiveChild.CreationDate -eq $taskChild.CreationDate) { Stop-Process -Id $taskChild.ProcessId -ErrorAction SilentlyContinue }
         }
-        Stop-Process -Id $taskOwned.id
+        # A parent can exit while its workers are being stopped.
+        Stop-Process -Id $taskOwned.id -ErrorAction SilentlyContinue
       } else { throw 'Identidade do helper não corresponde ao projeto.' }
     }
   }

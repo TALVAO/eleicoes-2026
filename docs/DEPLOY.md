@@ -39,6 +39,8 @@ Para reiniciar todos os helpers, consultar `scripts/start-free.ps1`. O script us
 
 Os scripts devem ser executados no PowerShell 7 com Docker Desktop disponível. Credenciais Vercel são mantidas pelo CLI oficial; se a sessão expirar, executar `npx vercel login`. O início aguarda prova de origem e heartbeat recente do worker, incluindo a expiração de uma concessão anterior. Um health degradado por backoff do TSE é aceito quando o worker continua ativo, para que o site apresente o último snapshot e o aviso correspondente.
 
+O mesmo início carrega a chave do painel `/chat/moderacao` de `.local/free/chat-admin-token.txt`, criando-a se necessário. Operação, limites e retenção da conversa estão em [CHAT.md](CHAT.md). O chat utiliza o Redis já existente, sem novo serviço pago. Ao compilar neste Windows, caso o Turbopack falhe ao iniciar o processo de CSS, usar o compilador suportado `npm run build -- --webpack`.
+
 ## Validações reais
 
 - Redis real: primeiras leituras concorrentes, compartilhamento, renovação, expiração de demandas, troca de liderança e rejeição de escrita antiga.

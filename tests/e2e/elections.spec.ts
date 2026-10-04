@@ -1,6 +1,9 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import type { View } from '../../src/lib/tse/types';
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => sessionStorage.setItem('ele2026-chat-welcome', 'seen'));
+});
 async function countingView(page: Page): Promise<View> {
   const response = await page.request.get('/api/results?scope=br&office=1');
   const view = (await response.json()) as View;

@@ -35,6 +35,11 @@ $env:NODE_OPTIONS = '--use-system-ca'
 $taskTokenPath = Join-Path $taskRuntime 'gateway-token.txt'
 if (!(Test-Path -LiteralPath $taskTokenPath)) { throw 'Segredo do gateway ausente; configure-o localmente e na Vercel antes de iniciar.' }
 $env:FREE_GATEWAY_TOKEN = (Get-Content -LiteralPath $taskTokenPath -Raw).Trim()
+$taskChatTokenPath = Join-Path $taskRuntime 'chat-admin-token.txt'
+if (!(Test-Path -LiteralPath $taskChatTokenPath)) {
+  [Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(32)).ToLowerInvariant() | Set-Content -LiteralPath $taskChatTokenPath -Encoding utf8
+}
+$env:CHAT_ADMIN_TOKEN = (Get-Content -LiteralPath $taskChatTokenPath -Raw).Trim()
 $taskProcesses = @()
 function Save-Helpers {
   @{ processes = $taskProcesses } | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath $taskStatePath -Encoding utf8

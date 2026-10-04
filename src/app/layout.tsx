@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Vote, ExternalLink, ShieldCheck } from 'lucide-react';
 import '@fontsource-variable/source-sans-3';
 import './globals.css';
+import { ChatEntry } from '@/components/chat-panel';
 export const metadata: Metadata = {
   title: 'Eleições 2026 — Resultados ao Vivo',
   description:
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         </header>
         {children}
+        <ChatEntry />
         <footer className="site-footer">
           <div className="footer-top">
             <Link href="/" className="footer-brand">

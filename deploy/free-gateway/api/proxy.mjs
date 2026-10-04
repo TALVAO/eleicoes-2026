@@ -26,13 +26,14 @@ export function handler(
   token = process.env.GATEWAY_TOKEN,
 ) {
   return async function proxy(request, response) {
-    if (!['GET', 'HEAD'].includes(request.method)) {
+    const path = Array.isArray(request.query.path) ? request.query.path[0] : request.query.path;
+    const chat = /^api\/chat\/(session|messages|reports|moderation)$/.test(String(path));
+    if (!['GET', 'HEAD'].includes(request.method) && !(request.method === 'POST' && chat)) {
       response.setHeader('Allow', 'GET, HEAD');
       return response.status(405).end();
     }
     try {
       if (!token) throw new Error('Origin authentication required');
-      const path = Array.isArray(request.query.path) ? request.query.path[0] : request.query.path;
       const url = targetUrl(origin, request.url, path);
       const nonce = randomUUID();
       const headers = {
@@ -41,6 +42,39 @@ export function handler(
         'x-free-gateway-token': token,
         'x-free-gateway-nonce': nonce,
       };
+      let body;
+      if (chat) {
+        // Vercel overwrites X-Forwarded-For; never forward the visitor's custom identity header.
+        const ip = String(
+          request.headers['x-forwarded-for'] ?? request.socket?.remoteAddress ?? 'unknown',
+        )
+          .split(',')[0]
+          .trim();
+        headers['x-chat-client'] = createHmac('sha256', token).update(ip).digest('hex');
+        for (const name of ['cookie', 'origin', 'if-none-match'])
+          if (request.headers[name]) headers[name] = request.headers[name];
+        if (path === 'api/chat/moderation' && request.headers['x-chat-admin'])
+          headers['x-chat-admin'] = request.headers['x-chat-admin'];
+        if (request.method === 'POST') {
+          if (!/^application\/json(?:;|$)/i.test(String(request.headers['content-type'] ?? ''))) {
+            response.setHeader('Content-Type', 'application/json');
+            response.setHeader('Cache-Control', 'no-store');
+            return response
+              .status(415)
+              .end(JSON.stringify({ message: 'Formato de mensagem inválido.' }));
+          }
+          body =
+            typeof request.body === 'string' || Buffer.isBuffer(request.body)
+              ? request.body
+              : JSON.stringify(request.body ?? null);
+          if (Buffer.byteLength(body) > 4096) {
+            response.setHeader('Content-Type', 'application/json');
+            response.setHeader('Cache-Control', 'no-store');
+            return response.status(413).end(JSON.stringify({ message: 'Mensagem muito longa.' }));
+          }
+          headers['content-type'] = 'application/json';
+        }
+      }
       for (const name of [
         'rsc',
         'next-router-state-tree',
@@ -55,6 +89,7 @@ export function handler(
         redirect: 'error',
         signal: AbortSignal.timeout(8000),
         headers,
+        ...(body !== undefined ? { body } : {}),
       });
       const supplied = Buffer.from(upstream.headers.get('x-free-gateway-origin') ?? '');
       const expected = Buffer.from(createHmac('sha256', token).update(nonce).digest('hex'));
@@ -87,9 +122,14 @@ export function handler(
         'permissions-policy',
         'service-worker-allowed',
         'vary',
+        'retry-after',
       ]) {
         const value = upstream.headers.get(name);
         if (value) response.setHeader(name, value);
+      }
+      if (chat) {
+        const cookies = upstream.headers.getSetCookie();
+        if (cookies.length) response.setHeader('Set-Cookie', cookies);
       }
       return response.status(upstream.status).end(Buffer.concat(chunks));
     } catch {

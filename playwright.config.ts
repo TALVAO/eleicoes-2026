@@ -14,9 +14,15 @@ export default defineConfig({
     { name: 'iphone', use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium' } },
   ],
   webServer: {
-    command: 'npx tsx scripts/seed-e2e.ts && npm run start -- --port 3100',
+    command:
+      'npx tsx scripts/seed-e2e.ts && npx tsx scripts/reset-chat-e2e.ts && npm run start -- --port 3100',
     url: 'http://localhost:3100',
-    env: { CACHE_DIR: '.data-e2e', SITE_URL: 'http://localhost:3100' },
+    env: {
+      CACHE_DIR: '.data-e2e',
+      SITE_URL: 'http://localhost:3100',
+      CHAT_REDIS_URL: process.env.CI ? 'redis://127.0.0.1:6379/14' : 'redis://127.0.0.1:6386/14',
+      CHAT_ADMIN_TOKEN: 'isolated-e2e-chat-admin-secret-2026',
+    },
     reuseExistingServer: false,
     timeout: 90_000,
   },
